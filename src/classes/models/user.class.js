@@ -21,7 +21,7 @@ class User {
     const distance = speed * timeDiff;
 
     return {
-      x: this.x + distance,
+      x: this.x,
       y: this.y,
     };
   }
