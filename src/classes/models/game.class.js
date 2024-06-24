@@ -19,7 +19,6 @@ class Game {
   removeUser(socket) {
     const index = this.users.findIndex((user) => user.socket === socket);
     if (index !== -1) {
-      this.intervalManager.removePlayer(this.users[index].id);
       return this.users.splice(index, 1)[0];
     }
   }
