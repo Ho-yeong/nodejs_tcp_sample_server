@@ -4,12 +4,21 @@ import { createResponse } from '../../utils/response/createResponse.js';
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
 import { handlerError } from '../../utils/error/errorHandler.js';
 import { getGameSession } from '../../session/game.session.js';
+import { createUser, findUserByDeviceID, updateUserLogin } from '../../db/user/user.db.js';
 
-const initialHandler = async ({ socket, userId, payload }) => {
+const initialHandler = async ({ socket, _, payload }) => {
   try {
     const { deviceId, latency, playerId } = payload;
 
-    const user = addUser(socket, deviceId, playerId, latency);
+    let user = await findUserByDeviceID(deviceId);
+
+    if (!user) {
+      await createUser(deviceId);
+    } else {
+      await updateUserLogin(user.id);
+    }
+
+    user = addUser(socket, deviceId, playerId, latency);
     const gameSession = getGameSession();
     gameSession.addUser(user);
 
