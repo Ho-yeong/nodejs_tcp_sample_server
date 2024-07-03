@@ -16,7 +16,7 @@ const initialHandler = async ({ socket, _, payload }) => {
     if (!user) {
       await createUser(deviceId);
     } else {
-      await updateUserLogin(user.id);
+      await updateUserLogin(deviceId);
       coords.x = user.xCoord;
       coords.y = user.yCoord;
     }
