@@ -35,7 +35,7 @@ class Game {
     const maxLatency = this.getMaxLatency();
 
     const locationData = this.users
-      .filter((user) => user.id !== excludeUserId) // excludeUserId와 일치하는 유저 제외
+      // .filter((user) => user.id !== excludeUserId) // excludeUserId와 일치하는 유저 제외
       .map((user) => {
         const { x, y } = user.calculatePosition(maxLatency);
         return { id: user.id, playerId: user.playerId, x, y };
