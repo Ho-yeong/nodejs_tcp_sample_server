@@ -9,7 +9,7 @@ const initServer = async () => {
     await loadProtos();
     const gameId = uuidv4();
     const gameSession = addGameSession(gameId);
-    await testAllConnections(pools);
+    // await testAllConnections(pools);
   } catch (e) {
     console.error(e);
     process.exit(1);

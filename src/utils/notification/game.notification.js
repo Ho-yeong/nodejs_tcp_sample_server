@@ -15,12 +15,21 @@ const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
-export const createLocationPacket = (users) => {
+export const createSpawnPacket = (players) => {
   const protoMessage = getProtoMessages();
-  const Location = protoMessage.gameNotification.LocationUpdate;
+  const Location = protoMessage.game.S_Spawn;
 
-  const payload = { users };
+  const payload = { players };
   const message = Location.create(payload);
   const locationPacket = Location.encode(message).finish();
-  return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+  return makeNotification(locationPacket, PACKET_TYPE.SPAWN);
+};
+
+export const createLocationPacket = (posInfo) => {
+  const protoMessage = getProtoMessages();
+  const Location = protoMessage.game.S_Move;
+
+  const message = Location.create(posInfo);
+  const locationPacket = Location.encode(message).finish();
+  return makeNotification(locationPacket, PACKET_TYPE.MOVE);
 };

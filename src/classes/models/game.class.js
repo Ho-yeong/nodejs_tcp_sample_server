@@ -1,5 +1,8 @@
 import IntervalManager from '../managers/interval.manager.js';
-import { createLocationPacket } from '../../utils/notification/game.notification.js';
+import {
+  createLocationPacket,
+  createSpawnPacket,
+} from '../../utils/notification/game.notification.js';
 
 class Game {
   constructor(id) {
@@ -8,12 +11,23 @@ class Game {
     this.intervalManager = new IntervalManager();
   }
 
-  addUser(user) {
-    this.users.push(user);
+  addUser(newUser) {
+    this.users.push(newUser);
+
+    const users = this.users.map((user) => {
+      return { ...user.makeUserInfo().player };
+    });
+
+    for (let user of this.users) {
+      const usersWithoutMe = users.filter((u) => {
+        return u.playerId !== user.PlayerInfo.playerId;
+      });
+      user.socket.write(createSpawnPacket(usersWithoutMe));
+    }
   }
 
-  getUser(userId) {
-    return this.users.find((user) => user.id === userId);
+  getUser(socket) {
+    return this.users.find((user) => user.socket === socket);
   }
 
   removeUser(socket) {
@@ -23,25 +37,16 @@ class Game {
     }
   }
 
-  getMaxLatency() {
-    let maxLatency = 0;
-    this.users.forEach((user) => {
-      maxLatency = Math.max(maxLatency, user.latency);
-    });
-    return maxLatency;
-  }
+  broadcastLocation(socket) {
+    const user = this.getUser(socket);
+    const posInfo = {
+      playerId: user.PlayerInfo.playerId,
+      posInfo: user.TransformInfo,
+    };
 
-  getAllLocation(excludeUserId) {
-    const maxLatency = this.getMaxLatency();
-
-    const locationData = this.users
-      // .filter((user) => user.id !== excludeUserId) // excludeUserId와 일치하는 유저 제외
-      .map((user) => {
-        const { x, y } = user.calculatePosition(maxLatency);
-        return { id: user.id, playerId: user.playerId, x, y };
-      });
-
-    return createLocationPacket(locationData);
+    for (let user of this.users) {
+      user.socket.write(createLocationPacket(posInfo));
+    }
   }
 }
 

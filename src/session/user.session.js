@@ -9,7 +9,6 @@ export const addUser = (user) => {
 export const removeUser = async (socket) => {
   const index = userSessions.findIndex((user) => user.socket === socket);
   if (index !== -1) {
-    await updateUserLocation(userSessions[index].x, userSessions[index].y, userSessions[index].id);
     return userSessions.splice(index, 1)[0];
   }
 };
