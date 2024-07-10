@@ -29,7 +29,7 @@ export const createLocationPacket = (posInfo) => {
   const protoMessage = getProtoMessages();
   const Location = protoMessage.game.S_Move;
 
-  const message = Location.create(posInfo);
+  const message = Location.create({ ...posInfo });
   const locationPacket = Location.encode(message).finish();
-  return makeNotification(locationPacket, PACKET_TYPE.MOVE);
+  return makeNotification(locationPacket, PACKET_TYPE.S_MOVE);
 };

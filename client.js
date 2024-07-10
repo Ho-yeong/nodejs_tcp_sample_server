@@ -64,7 +64,7 @@ client.on('data', (data) => {
     } catch (e) {
       console.log(e);
     }
-  } else if (packetType === 2) {
+  } else if (packetType === 3) {
     const Response = protoMessages.game.S_Spawn;
 
     try {

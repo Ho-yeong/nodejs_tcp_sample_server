@@ -5,11 +5,11 @@ import moveHandler from './game/move.handler.js';
 import { PACKET_TYPE } from '../constants/header.js';
 
 const handlers = {
-  [PACKET_TYPE.ENTER]: {
+  [PACKET_TYPE.C_ENTER]: {
     handler: initialHandler,
     protoType: 'game.C_Enter',
   },
-  [PACKET_TYPE.MOVE]: {
+  [PACKET_TYPE.C_MOVE]: {
     handler: moveHandler,
     protoType: 'game.C_Move',
   },

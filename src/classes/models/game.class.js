@@ -22,6 +22,7 @@ class Game {
       const usersWithoutMe = users.filter((u) => {
         return u.playerId !== user.PlayerInfo.playerId;
       });
+
       user.socket.write(createSpawnPacket(usersWithoutMe));
     }
   }
@@ -39,6 +40,7 @@ class Game {
 
   broadcastLocation(socket) {
     const user = this.getUser(socket);
+
     const posInfo = {
       playerId: user.PlayerInfo.playerId,
       posInfo: user.TransformInfo,

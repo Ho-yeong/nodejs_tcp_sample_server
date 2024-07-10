@@ -3,7 +3,7 @@ import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { handlerError } from '../../utils/error/errorHandler.js';
 
-const moveHandler = ({ socket, posInfo }) => {
+const moveHandler = (socket, posInfo) => {
   try {
     const gameSession = getGameSession();
 
@@ -15,9 +15,9 @@ const moveHandler = ({ socket, posInfo }) => {
     if (!user) {
       throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저를 찾을 수 없습니다.');
     }
-    console.log(gameSession);
+
     user.updatePosition(posInfo);
-    gameSession.broadcastLocation();
+    gameSession.broadcastLocation(socket);
   } catch (e) {
     handlerError(socket, e);
   }

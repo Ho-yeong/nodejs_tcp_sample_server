@@ -50,7 +50,7 @@ class User {
   }
 
   updatePosition(posInfo) {
-    this.TransformInfo = posInfo;
+    this.TransformInfo = posInfo.posInfo;
     this.lastUpdateTime = Date.now();
   }
 }

@@ -7,7 +7,7 @@ import readLittleEndianPacket from '../utils/readLittleEndianPacket.js';
 
 export const onData = (socket) => async (data) => {
   socket.buffer = Buffer.concat([socket.buffer, data]);
-  console.log(data);
+
   const totalHeaderLength = config.packet.totalLength + config.packet.typeLength;
 
   while (socket.buffer.length >= totalHeaderLength) {
@@ -22,15 +22,17 @@ export const onData = (socket) => async (data) => {
       try {
         let type;
         switch (packetType) {
-          case PACKET_TYPE.ENTER:
-            type = PACKET_TYPE.ENTER;
+          case PACKET_TYPE.C_ENTER:
+            type = PACKET_TYPE.C_ENTER;
             break;
-          case PACKET_TYPE.MOVE:
-            type = PACKET_TYPE.MOVE;
+          case PACKET_TYPE.C_MOVE:
+            type = PACKET_TYPE.C_MOVE;
             break;
         }
+
         const reqData = packetParser(packet, type);
         const handler = getHandlerById(type);
+
         handler(socket, reqData);
       } catch (e) {
         handlerError(socket, e);

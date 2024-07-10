@@ -23,7 +23,7 @@ const initialHandler = async (socket, data) => {
     gameSession.addUser(user);
 
     const initialResponse = createResponse(
-      PACKET_TYPE.ENTER,
+      PACKET_TYPE.S_ENTER,
       'game',
       'S_Enter',
       user.makeUserInfo(),
