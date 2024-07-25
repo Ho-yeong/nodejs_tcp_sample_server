@@ -20,18 +20,8 @@ export const onData = (socket) => async (data) => {
       socket.buffer = socket.buffer.slice(length);
 
       try {
-        let type;
-        switch (packetType) {
-          case PACKET_TYPE.C_ENTER:
-            type = PACKET_TYPE.C_ENTER;
-            break;
-          case PACKET_TYPE.C_MOVE:
-            type = PACKET_TYPE.C_MOVE;
-            break;
-        }
-
-        const reqData = packetParser(packet, type);
-        const handler = getHandlerById(type);
+        const reqData = packetParser(packet, packetType);
+        const handler = getHandlerById(packetType);
 
         handler(socket, reqData);
       } catch (e) {

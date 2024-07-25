@@ -76,9 +76,20 @@ message S_ChangeCostume{
   CostumeInfo costume = 2;
 }
 
+// 응답 패킷 - C_Chat
+message S_Chat{
+  int32 playerId = 1;
+  string chatMsg = 2;
+}
+
+// ALL
+message C_Chat{
+  int32 playerId = 1;
+  string senderName = 2;
+  string chatMsg = 3;
+}
 
 // 정보 구조체
-
 message PlayerInfo {
   int32 playerId = 1;  // 입장할때 서버 내부에서 생성한 관리코드
   string nickname = 2;  // C_EnterGame 에서 지정한 이름

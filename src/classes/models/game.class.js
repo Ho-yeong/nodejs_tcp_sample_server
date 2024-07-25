@@ -50,6 +50,12 @@ class Game {
       user.socket.write(createLocationPacket(posInfo));
     }
   }
+
+  broadcast(data) {
+    for (let user of this.users) {
+      user.socket.write(data);
+    }
+  }
 }
 
 export default Game;
